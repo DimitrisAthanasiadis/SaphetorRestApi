@@ -41,3 +41,12 @@ class Saphetor(Resource):
         response = self.response_tool.get_response(data=self.vcf_tool.add_row(data=request.get_json()), resp_type=request.headers.get("Response-Type"))
 
         return response
+
+    @token_required
+    def put(self, row_id=None) -> Response:
+        if not row_id:
+            return jsonify({"error": "No row id provided"}), 400
+
+        response = self.response_tool.get_response(data=self.vcf_tool.update_row(row_id=row_id, data=request.get_json()))
+
+        return response

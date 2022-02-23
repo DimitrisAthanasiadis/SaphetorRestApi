@@ -110,7 +110,7 @@ class VcfTool:
         except Exception as e:
             return {
                 "result": {
-                    "error": "Something went wrong writing updating the file",
+                    "error": "Something went wrong adding the row into the file",
                     "exception": str(e)
                 },
                 "status": 500
@@ -119,6 +119,37 @@ class VcfTool:
         return {
             "result": kwargs.get("data"),
             "status": 201
+        }
+
+    def update_row(self, **kwargs) -> dict:
+        if kwargs.get("df"):
+            df = kwargs.get("df")
+        else:
+            df = self.get_dataframe()
+
+        row = df[df["ID"] == kwargs.get("row_id")]
+
+        if row.empty:
+            return {"result": "No record found", "status": 404}
+
+        try:
+            index = df.index[df['ID'] == kwargs.get("row_id")].tolist()[0]
+            for key, value in kwargs.get("data").items():
+                df.at[index, key] = value
+
+            df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
+        except Exception as e:
+            return {
+                "result": {
+                    "error": "Something went wrong updating the row into the file",
+                    "exception": str(e)
+                },
+                "status": 500
+            }
+
+        return {
+            "result": f"Row with id {kwargs.get('row_id')} updated",
+            "status": 200
         }
 
 
@@ -171,5 +202,5 @@ class ResponseTool:
         if not kwargs.get("data"):
                 return {"error": "No record found"}, 404
 
-        resp = make_response(self.representations[kwargs.get("resp_type") or "application/json"](data=kwargs.get("data"), code=kwargs.get("status")))
+        resp = make_response(self.representations[kwargs.get("resp_type") or "application/json"](data=kwargs.get("data"), code=kwargs.get("data").get("status")))
         return resp
