@@ -50,3 +50,12 @@ class Saphetor(Resource):
         response = self.response_tool.get_response(data=self.vcf_tool.update_row(row_id=row_id, data=request.get_json()))
 
         return response
+    
+    @token_required
+    def delete(self, row_id) -> Response:
+        if not row_id:
+            return jsonify({"error": "No row id provided"}), 400
+
+        response = self.response_tool.get_response(data=self.vcf_tool.delete_row(row_id=row_id))
+
+        return response

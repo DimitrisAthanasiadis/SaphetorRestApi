@@ -15,6 +15,7 @@ api.add_resource(Saphetor, '/saphetor/getRow/<string:row_id>', endpoint='sapheto
 api.add_resource(Saphetor, '/saphetor/getPaginatedData', endpoint='saphetor_all')
 api.add_resource(Saphetor, '/saphetor/addRow', endpoint='saphetor_add')
 api.add_resource(Saphetor, '/saphetor/updateRow/<string:row_id>', endpoint='saphetor_update')
+api.add_resource(Saphetor, '/saphetor/deleteRow/<string:row_id>', endpoint='saphetor_delete')
 
 if __name__ == '__main__':
     app.run(debug=True)

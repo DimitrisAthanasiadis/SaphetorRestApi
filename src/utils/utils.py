@@ -152,6 +152,35 @@ class VcfTool:
             "status": 200
         }
 
+    def delete_row(self, **kwargs) -> dict:
+        if kwargs.get("df"):
+            df = kwargs.get("df")
+        else:
+            df = self.get_dataframe()
+
+        row = df[df["ID"] == kwargs.get("row_id")]
+
+        if row.empty:
+            return {"result": "No record found", "status": 404}
+
+        try:
+            index_to_delete = df.index[df['ID'] == kwargs.get("row_id")].tolist()[0]
+            df = df.drop(index_to_delete)
+            df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
+        except Exception as e:
+            return {
+                "result": {
+                    "error": "Something went wrong deleting the row into the file",
+                    "exception": str(e)
+                },
+                "status": 500
+            }
+
+        return {
+            "result": f"Row with id {kwargs.get('row_id')} deleted",
+            "status": 204
+        }
+
 
 class ResponseTool:
     """
