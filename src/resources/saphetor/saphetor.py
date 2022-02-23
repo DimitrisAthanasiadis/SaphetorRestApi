@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask import jsonify
+from flask import jsonify, Response
 from utils.utils import VcfTool, ResponseTool
 from flask import request
 from utils.decorators import token_required
@@ -21,7 +21,7 @@ class Saphetor(Resource):
         self.response_tool = ResponseTool()
         self.vcf_tool = VcfTool(vcf_path=os.path.join(BASE_DIR, "static", "NA12877_API_10.vcf.gz"))
 
-    def get(self, row_id=None):
+    def get(self, row_id=None) -> Response:
         data = saphetor_data.parse_args()
 
         if row_id:
@@ -37,7 +37,7 @@ class Saphetor(Resource):
         return response
 
     @token_required
-    def post(self, **kwargs):
+    def post(self, **kwargs) -> Response:
         response = self.response_tool.get_response(data=self.vcf_tool.add_row(data=request.get_json()), resp_type=request.headers.get("Response-Type"))
 
         return response

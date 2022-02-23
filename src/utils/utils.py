@@ -54,7 +54,7 @@ class VcfTool:
         final_dict = row.to_dict("records")[0] # gets the row as a pure dict without index (records orientation)
 
         if not final_dict.get("ID"):
-            return None
+            return {"result": "No record found", "status": 404}
 
         return {"result": final_dict, "status": 200}
 
@@ -86,7 +86,7 @@ class VcfTool:
 
         return {"result": final_res, "status": 200}
 
-    def add_row(self, **kwargs):
+    def add_row(self, **kwargs) -> dict:
         """
         accepts the dataframe or opens it from
         the default specified file path. it appends
@@ -109,8 +109,10 @@ class VcfTool:
             df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
         except Exception as e:
             return {
-                "error": "Something went wrong writing updating the file",
-                "exception": str(e),
+                "result": {
+                    "error": "Something went wrong writing updating the file",
+                    "exception": str(e)
+                },
                 "status": 500
             }
 

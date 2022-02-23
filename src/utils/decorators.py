@@ -1,4 +1,4 @@
-from flask import request, jsonify, make_response
+from flask import request, make_response
 from functools import wraps
 from environs import Env
 import json
