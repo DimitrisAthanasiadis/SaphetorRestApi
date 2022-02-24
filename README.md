@@ -7,7 +7,7 @@ Try to provide back an implementation that, as closely as possible, covers the r
 ---
 
 ## SETUP AND EXECUTION
-I am using Flask as my backend framework. Python 3.10.1 is used (preferrably install Python 3.9+ due to the return types applied to the methods)
+Python 3.10.1 is used (preferrably install Python 3.9+ due to the return types applied to the methods)
 A requirements.txt is provided with all the essential libraries used to build the REST API
 ### Setup and execution steps
 - Clone the project
@@ -32,7 +32,7 @@ A running server output will be printed.
 
 I personally used Insomnia client to perform the requests. I will provide the endpoints, headers and data needed to perform the requests
 - **GET:** 
-	- **without pagination**: `http://localhost:5000/saphetor/getRow/rs1232018312`
+	- **without pagination**: `http://localhost:5000/saphetor/getRow/DESIRED_ID`
 	- **with pagination:** `http://localhost:5000/saphetor/getPaginatedData?page=1&per_page=10`
 	- **header (optional, anything between these or no header applied at all):** `header=Response-Type, value=application/xml | application/json | */* `
 - **POST:** 
@@ -50,5 +50,21 @@ I personally used Insomnia client to perform the requests. I will provide the en
 	- **headers:**
 		- `header=Content-Type, value=application/json`
 		- `header=X-Access-Token, value=ANY_KEY_YOU_HAVE_IN_THE_ENV_FILE`
-
+- **PUT**
+	- **URL:** `http://localhost:5000/saphetor/updateRow/DESIRED_ID`
+	- **data:** 
+		```
+		{
+		"CHROM": "chrXY",
+		"POS": 11,
+		"ALT": "ABC",
+		"REF": "CDEffff"
+		}
+		```
+	- **headers:**
+		- `header=Content-Type, value=application/json`
+		- `header=X-Access-Token, value=ANY_KEY_YOU_HAVE_IN_THE_ENV_FILE`
+- **DELETE:**
+	- **URL:** `http://localhost:5000/saphetor/deleteRow/DESIRED_ID`
+	- **headers:** `header=X-Access-Token, value=ANY_KEY_YOU_HAVE_IN_THE_ENV_FILE`
 ---
