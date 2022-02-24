@@ -122,6 +122,17 @@ class VcfTool:
         }
 
     def update_row(self, **kwargs) -> dict:
+        """
+        accepts the dataframe or opens it from
+        the default specified file path.
+        it updates the given row_id with the
+        provided dict data.
+
+        Returns:
+            dict: it contains the notification
+                about the update and the status code
+        """
+
         if kwargs.get("df"):
             df = kwargs.get("df")
         else:
@@ -153,6 +164,16 @@ class VcfTool:
         }
 
     def delete_row(self, **kwargs) -> dict:
+        """
+        accepts the dataframe or opens it from
+        specified file path. it deletes the given
+        row_id from the vcf file.
+
+        Returns:
+            dict: it contains the notification
+                about the deletion and the status code
+        """
+
         if kwargs.get("df"):
             df = kwargs.get("df")
         else:
