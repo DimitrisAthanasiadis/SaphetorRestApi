@@ -1,8 +1,13 @@
 # this is the test file for the api
 
 import unittest
-from app import app
 import json
+from app import app
+from environs import Env
+
+
+env = Env()
+env.read_env("src/config/.env")
 
 
 class TestSaphetorApiResponse(unittest.TestCase):
@@ -150,7 +155,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
         response = client.delete(
             "/saphetor/deleteRow/rsMitsoRe",
             headers={
-                "X-Access-Token": "my-secret-key",
+                "X-Access-Token": env.str("SECRET_KEY"),
             }
         )
         response_status_code = response.status_code
