@@ -3,6 +3,7 @@ from flask import jsonify, Response
 from utils.utils import VcfTool, ResponseTool
 from flask import request
 from utils.decorators import token_required
+from resources.saphetor_schema import SaphetorPostSchema
 import os
 
 
@@ -44,9 +45,10 @@ class Saphetor(Resource):
 
     @token_required
     def post(self) -> Response:
+        schema = SaphetorPostSchema().load(request.get_json())
         request_args = self.reqparse_post_args.parse_args()
 
-        response = self.response_tool.get_response(data=self.vcf_tool.add_row(data=request.get_json()), resp_type=request_args.get("Response-Type"))
+        response = self.response_tool.get_response(data=self.vcf_tool.add_row(data=schema), resp_type=request_args.get("Response-Type"))
 
         return response
 
