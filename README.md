@@ -54,12 +54,12 @@ I personally used Insomnia client to perform the requests. I will provide the en
 	- **URL:** `http://localhost:5000/saphetor/updateRow/DESIRED_ID`
 	- **data:** 
 		```
-		{
-		"CHROM": "chrXY",
-		"POS": 11,
-		"ALT": "ABC",
-		"REF": "CDEffff"
-		}
+			{
+		    "CHROM": "chrXY",
+		    "POS": 11,
+		    "ALT": "ABC",
+		    "REF": "CDEffff"
+			}
 		```
 	- **headers:**
 		- `header=Content-Type, value=application/json`
@@ -67,4 +67,11 @@ I personally used Insomnia client to perform the requests. I will provide the en
 - **DELETE:**
 	- **URL:** `http://localhost:5000/saphetor/deleteRow/DESIRED_ID`
 	- **headers:** `header=X-Access-Token, value=ANY_KEY_YOU_HAVE_IN_THE_ENV_FILE`
+
+## TESTING THE API
+
+I have created a testing script in the `src` folder called `test_api.py`. I have created the appropriate methods for testing and have provided the essential input to test the responses.
+
+Assuming that the virtual environment is activated and your working directory is the root folder of the project, you can perform the tests by executing this: `python src/test_api.py`
+
 ---
