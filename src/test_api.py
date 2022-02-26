@@ -127,7 +127,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
         print("RUNNING TESTS FOR UPDATING A ROW")
         client = app.test_client(self)
         response = client.put(
-            "/saphetor/updateRow/rsMitsoRe",
+            "/saphetor/updateRow/rs78249347",
             data=json.dumps(
                 {"CHROM": "chrXY", "POS": 11, "ALT": "ABC", "REF": "CDEffff"},
             ),
@@ -142,7 +142,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
         self.assertEqual(response_status_code, 200)
         self.assertEqual(response_status_data.get("status"), 200)
         self.assertTrue("result" in response_status_data)
-        self.assertTrue("rsMitsoRe" in response_status_data.get("result"))
+        self.assertTrue("rs78249347" in response_status_data.get("result"))
 
     def test_delete_row(self) -> None:
         print("RUNNING TESTS FOR DELETING A ROW")
