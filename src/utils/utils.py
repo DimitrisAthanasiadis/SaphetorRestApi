@@ -1,9 +1,10 @@
 import gzip
-import pandas as pd
 import io
-from flask import make_response
 import json
+
+import pandas as pd
 from dicttoxml import dicttoxml
+from flask import make_response
 
 
 class VcfTool:

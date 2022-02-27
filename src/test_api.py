@@ -1,10 +1,11 @@
 # this is the test file for the api
 
-import unittest
 import json
-from app import app
+import unittest
+
 from environs import Env
 
+from app import app
 
 env = Env()
 env.read_env("src/config/.env")

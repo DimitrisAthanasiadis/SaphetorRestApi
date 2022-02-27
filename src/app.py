@@ -1,8 +1,8 @@
+from environs import Env
 from flask import Flask
 from flask_restful import Api
-from resources.saphetor.saphetor import Saphetor
-from environs import Env
 
+from resources.saphetor.saphetor import Saphetor
 
 env = Env()
 env.read_env("src/config/.env")

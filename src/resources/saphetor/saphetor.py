@@ -1,11 +1,11 @@
-from flask_restful import Resource, reqparse
-from flask import jsonify, Response
-from utils.utils import VcfTool, ResponseTool
-from flask import request
-from utils.decorators import token_required
-from resources.saphetor_schema import SaphetorPostSchema
 import os
 
+from flask import Response, jsonify, request
+from flask_restful import Resource, reqparse
+
+from resources.saphetor_schema import SaphetorPostSchema
+from utils.decorators import token_required
+from utils.utils import ResponseTool, VcfTool
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

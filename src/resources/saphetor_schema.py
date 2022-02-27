@@ -1,5 +1,6 @@
-from marshmallow import Schema, fields, validates, ValidationError
 import re
+
+from marshmallow import Schema, ValidationError, fields, validates
 
 
 class SaphetorPostSchema(Schema):

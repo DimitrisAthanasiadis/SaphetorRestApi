@@ -1,8 +1,8 @@
-from flask import request, make_response
-from functools import wraps
-from environs import Env
 import json
+from functools import wraps
 
+from environs import Env
+from flask import make_response, request
 
 env = Env()
 env.read_env("src/config/.env")

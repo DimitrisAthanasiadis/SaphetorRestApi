@@ -1,5 +1,6 @@
-from utils.utils import VcfTool
 import os
+
+from utils.utils import VcfTool
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
