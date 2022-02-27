@@ -78,7 +78,7 @@ class VcfTool:
         per_page = kwargs.get("per_page") or 10
         start_index = (page * per_page) - per_page
         end_index = (start_index + per_page) - 1
-        df_res = df[start_index:end_index]
+        df_res = df[start_index:end_index+1]
 
         final_res = []
         for index, row in df_res.iterrows():

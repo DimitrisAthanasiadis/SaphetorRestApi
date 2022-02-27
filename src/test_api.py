@@ -96,7 +96,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
         self.assertEqual(response_status_code, 200)
         self.assertTrue("result" in response_data)
         self.assertEqual(
-            len(response_data.get("result")), 9
+            len(response_data.get("result")), 10
         )  # TODO to be fixed. wrong length of results
         self.assertTrue(
             all(elem in list(response_data.get("result"))[0] for elem in required_keys)
