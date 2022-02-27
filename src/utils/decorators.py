@@ -27,16 +27,17 @@ def token_required(f):
 
         token = None
 
-        if 'X-Access-Token' in request.headers:
-            token = request.headers['X-Access-Token']
+        if "X-Access-Token" in request.headers:
+            token = request.headers["X-Access-Token"]
 
         # if not token:
         #     return jsonify({'message': 'a valid token is missing'})
 
         if not token == env.str("SECRET_KEY"):
-            response = make_response(json.dumps({'message': 'token is invalid'}), 403)
+            response = make_response(json.dumps({"message": "token is invalid"}), 403)
 
             return response
 
         return f(*args, **kwargs)
+
     return decorator

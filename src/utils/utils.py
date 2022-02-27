@@ -26,14 +26,14 @@ class VcfTool:
             pd.DataFrame: the vcf file as a dataframe
         """
 
-        with gzip.open(self.vcf_path, 'rt') as f:
-            lines = [l for l in f if not l.startswith('##')]
+        with gzip.open(self.vcf_path, "rt") as f:
+            lines = [l for l in f if not l.startswith("##")]
         return pd.read_csv(
-            io.StringIO(''.join(lines)),
+            io.StringIO("".join(lines)),
             # dtype={'#CHROM': str, 'POS': int, 'ID': str, 'REF': str, 'ALT': str,
             #     'QUAL': str, 'FILTER': str, 'INFO': str},
-            sep='\t'
-        ).rename(columns={'#CHROM': 'CHROM'})
+            sep="\t",
+        ).rename(columns={"#CHROM": "CHROM"})
 
     def get_dataframe_row(self, **kwargs) -> dict:
         """
@@ -51,7 +51,9 @@ class VcfTool:
             df = self.get_dataframe()
 
         row = df[df["ID"] == kwargs.get("row_id")]
-        final_dict = row.to_dict("records")[0] # gets the row as a pure dict without index (records orientation)
+        final_dict = row.to_dict("records")[
+            0
+        ]  # gets the row as a pure dict without index (records orientation)
 
         if not final_dict.get("ID"):
             return {"result": "No record found", "status": 404}
@@ -78,7 +80,7 @@ class VcfTool:
         per_page = kwargs.get("per_page") or 10
         start_index = (page * per_page) - per_page
         end_index = (start_index + per_page) - 1
-        df_res = df[start_index:end_index+1]
+        df_res = df[start_index : end_index + 1]
 
         final_res = []
         for index, row in df_res.iterrows():
@@ -106,20 +108,17 @@ class VcfTool:
 
         try:
             df = df.append(kwargs.get("data"), ignore_index=True)
-            df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
+            df.to_csv(self.vcf_path, sep="\t", index=False, compression="gzip")
         except Exception as e:
             return {
                 "result": {
                     "error": "Something went wrong adding the row into the file",
-                    "exception": str(e)
+                    "exception": str(e),
                 },
-                "status": 500
+                "status": 500,
             }
 
-        return {
-            "result": kwargs.get("data"),
-            "status": 201
-        }
+        return {"result": kwargs.get("data"), "status": 201}
 
     def update_row(self, **kwargs) -> dict:
         """
@@ -144,24 +143,21 @@ class VcfTool:
             return {"result": "No record found", "status": 404}
 
         try:
-            index = df.index[df['ID'] == kwargs.get("row_id")].tolist()[0]
+            index = df.index[df["ID"] == kwargs.get("row_id")].tolist()[0]
             for key, value in kwargs.get("data").items():
                 df.at[index, key] = value
 
-            df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
+            df.to_csv(self.vcf_path, sep="\t", index=False, compression="gzip")
         except Exception as e:
             return {
                 "result": {
                     "error": "Something went wrong updating the row into the file",
-                    "exception": str(e)
+                    "exception": str(e),
                 },
-                "status": 500
+                "status": 500,
             }
 
-        return {
-            "result": f"Row with id {kwargs.get('row_id')} updated",
-            "status": 200
-        }
+        return {"result": f"Row with id {kwargs.get('row_id')} updated", "status": 200}
 
     def delete_row(self, **kwargs) -> dict:
         """
@@ -185,22 +181,19 @@ class VcfTool:
             return {"result": "No record found", "status": 404}
 
         try:
-            index_to_delete = df.index[df['ID'] == kwargs.get("row_id")].tolist()[0]
+            index_to_delete = df.index[df["ID"] == kwargs.get("row_id")].tolist()[0]
             df = df.drop(index_to_delete)
-            df.to_csv(self.vcf_path, sep='\t', index=False, compression='gzip')
+            df.to_csv(self.vcf_path, sep="\t", index=False, compression="gzip")
         except Exception as e:
             return {
                 "result": {
                     "error": "Something went wrong deleting the row into the file",
-                    "exception": str(e)
+                    "exception": str(e),
                 },
-                "status": 500
+                "status": 500,
             }
 
-        return {
-            "result": f"Row with id {kwargs.get('row_id')} deleted",
-            "status": 204
-        }
+        return {"result": f"Row with id {kwargs.get('row_id')} deleted", "status": 204}
 
 
 class ResponseTool:
@@ -214,9 +207,9 @@ class ResponseTool:
 
     def __init__(self, **kwargs) -> None:
         self.representations = {
-            'application/xml': self.output_xml,
-            'application/json': self.output_json,
-            "*/*": self.output_json
+            "application/xml": self.output_xml,
+            "application/json": self.output_json,
+            "*/*": self.output_json,
         }
 
     def output_json(self, data, code, headers=None) -> make_response:
@@ -230,7 +223,9 @@ class ResponseTool:
         """Makes a Flask response with an XML body"""
         from xml.dom.minidom import parseString
 
-        resp = make_response(parseString(dicttoxml(data, attr_type=False)).toprettyxml(), code)
+        resp = make_response(
+            parseString(dicttoxml(data, attr_type=False)).toprettyxml(), code
+        )
         resp.headers.extend(headers or {})
 
         return resp
@@ -250,7 +245,11 @@ class ResponseTool:
                 return {"error": "Response-Type not acceptable"}, 406
 
         if not kwargs.get("data"):
-                return {"error": "No record found"}, 404
+            return {"error": "No record found"}, 404
 
-        resp = make_response(self.representations[kwargs.get("resp_type") or "application/json"](data=kwargs.get("data"), code=kwargs.get("data").get("status")))
+        resp = make_response(
+            self.representations[kwargs.get("resp_type") or "application/json"](
+                data=kwargs.get("data"), code=kwargs.get("data").get("status")
+            )
+        )
         return resp

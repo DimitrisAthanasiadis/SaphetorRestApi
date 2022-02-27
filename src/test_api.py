@@ -139,7 +139,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
             headers={
                 "Content-Type": "application/json",
                 "X-Access-Token": "my-secret-key",
-            }
+            },
         )
         response_status_code = response.status_code
         response_status_data = json.loads(response.data.decode())
@@ -156,7 +156,7 @@ class TestSaphetorApiResponse(unittest.TestCase):
             "/saphetor/deleteRow/rsMitsoRe",
             headers={
                 "X-Access-Token": env.str("SECRET_KEY"),
-            }
+            },
         )
         response_status_code = response.status_code
 

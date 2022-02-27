@@ -17,8 +17,13 @@ class SaphetorPostSchema(Schema):
         num_pattern_compiled = re.compile(r"^chr[0-9]+$")
         letter_pattern_compiled = re.compile(r"^chr[XYM]+$")
 
-        if re.match(num_pattern_compiled, value) is None and re.match(letter_pattern_compiled, value) is None:
-            raise ValidationError("CHROM must be in the format 'chr' followed by numbers between1-22 or 'chr' followed by X, Y, M")
+        if (
+            re.match(num_pattern_compiled, value) is None
+            and re.match(letter_pattern_compiled, value) is None
+        ):
+            raise ValidationError(
+                "CHROM must be in the format 'chr' followed by numbers between1-22 or 'chr' followed by X, Y, M"
+            )
 
     @validates("ID")
     def validates_ID(self, value):
